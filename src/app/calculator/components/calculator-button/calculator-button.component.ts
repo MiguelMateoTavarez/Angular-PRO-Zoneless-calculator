@@ -9,8 +9,9 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListen
   styleUrl: './calculator-button.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: "w-1/4 border-r border-b border-indigo-400",
+    class: "border-r border-b border-indigo-400",
     '[class.w-2/4]': 'isDoubleSize()',
+    '[class.w-1/4]': '!isDoubleSize()',
   },
 })
 export class CalculatorButtonComponent {
