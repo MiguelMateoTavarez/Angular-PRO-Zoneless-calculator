@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 const numbers: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-const operators: string[] = ['+', '-', '/', '⨉', '='];
+const operators: string[] = ['+', '-', '/', '⨉', '=', '*'];
 const specialOperators: string[] = [ '÷','+/-', 'C', '.', '=', 'Backspace', 'Delete', 'Enter'];
 
 @Injectable({
@@ -9,30 +9,30 @@ const specialOperators: string[] = [ '÷','+/-', 'C', '.', '=', 'Backspace', 'De
 })
 export class CalculatorService {
 
-  public resultText = signal<string>('123');
+  public resultText = signal<string>('0');
   public subResultText = signal<string>('0');
   public lastOperator = signal<string>('+');
 
   public constructNumber(value: string):void {
-    //Validate inputs
+
     if(![...numbers, ...operators, ...specialOperators].includes(value)){
       console.log('Invalid input', value);
       return;
     };
-    //Validate equality
+
     if(value === '='){
       this.calculateResult();
       this.subResultText.set('0');
       return;
     }
-    //Clear screen
+
     if(value === 'C' || value === 'Delete'){
       this.resultText.set('0');
       this.subResultText.set('0');
       this.lastOperator.set('+');
       return;
     }
-    //Todo: Check when we have negative numbers
+
     if(value === 'Backspace'){
       if(this.resultText() === '0') return;
       if(this.resultText().length === 1){
@@ -50,7 +50,6 @@ export class CalculatorService {
       return;
     }
 
-    //Limit number of characters
     if(this.resultText().length >= 10){
       console.log('Max length reached');
       return;
@@ -91,7 +90,6 @@ export class CalculatorService {
       return;
     }
 
-    //Numbers
     this.resultText.update(text => text + value);
   }
 
@@ -111,7 +109,7 @@ export class CalculatorService {
       case '÷':
         result = firstNumber / secondNumber;
         break;
-      case '⨉':
+      case '*':
         result = firstNumber * secondNumber;
         break;
     }
